@@ -1,0 +1,20 @@
+<view class="content">
+    <view class = "logo">
+        <image mode="aspectFit" src="/images/logo.png"></image>
+    </view>
+    <form bindsubmit="formSubmit">
+        <view class="input-area">
+          <input id="username" name="username" maxlength='20' type="text" placeholder="用户名"/>
+          <view class="smsCode">
+            <input id="password" name="password" maxlength='20' type="password" placeholder="密码" />
+          </view>
+          <input id="passwordVerify" name="passwordVerify" maxlength='20' type="password" placeholder="密码确认" />
+        </view>
+        <view class="btn-area">
+            <button  disabled="{{registDisabled}}" style="background-color:{{registBtnBgBgColor}}"   formType="submit"  loading="{{btnLoading}}"> {{registBtnTxt}} </button>
+            <view class="txt-area">
+                 <navigator redirect url="../login/login"><text class="register">登录账号</text></navigator>
+            </view>
+        </view>
+    </form>
+</view>

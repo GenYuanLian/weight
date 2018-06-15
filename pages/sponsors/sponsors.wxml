@@ -1,0 +1,37 @@
+<view class="page">
+  <view class="page__bd">
+    <view class="weui-cells__title">被邀请的</view>
+    <view class="weui-cells weui-cells_after-title">
+        <block wx:for="{{items}}" wx:key="{{item.id}}">
+        <navigator url="../sponsor/sponsor?idx={{index}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+                    <view class="weui-cell__hd">
+                        <image src="{{icon}}" style="margin-right: 15px;vertical-align: middle;width:20px; height: 20px;"></image>
+                    </view>
+                    <view class="weui-cell__bd">{{item.plan.intro}}</view>
+                    <view wx:if="{{item.plan.submit==1}}" class="weui-cell__ft weui-cell__ft_in-access">已提交</view>
+                    <view wx:elif="{{item.plan.finish==1}}" class="weui-cell__ft weui-cell__ft_in-access">已截止</view>
+                    <view wx:else class="weui-cell__ft weui-cell__ft_in-access">未提交</view>
+                </navigator>
+        </block>
+    </view>
+    <view class="weui-cells__title">我参与的</view>
+    <view class="weui-cells weui-cells_after-title">
+        <block wx:for="{{joinItems}}" wx:key="{{item.id}}">
+        <navigator url="../joinSponsor/joinSponsor?idx={{index}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+                    <view class="weui-cell__hd">
+                        <image src="{{icon}}" style="margin-right: 15px;vertical-align: middle;width:20px; height: 20px;"></image>
+                    </view>
+                    <view class="weui-cell__bd">{{item.plan.intro}}</view>
+                    <view wx:if="{{item.plan.submit==1}}" class="weui-cell__ft weui-cell__ft_in-access">已提交</view>
+                    <view wx:elif="{{item.plan.finish==1}}" class="weui-cell__ft weui-cell__ft_in-access">已截止</view>
+                    <view wx:else class="weui-cell__ft weui-cell__ft_in-access">未提交</view>
+                </navigator>
+        </block>
+    </view>
+  </view>
+  <view class="page__bd page__bd_spacing">
+      <button bindtap="syncSponsors" class="weui-btn" type="primary">
+        同步赞助
+      </button>
+  </view>
+</view>

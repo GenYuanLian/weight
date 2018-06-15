@@ -1,0 +1,59 @@
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view class="page__bd">
+    <view class="weui-cells__title">钱包余额</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">总的</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="总的余额" disabled value="{{totalBalance}}"/>
+        </view>
+        <view class="weui-cell__ft">BSTK</view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">可用</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="可用余额" disabled value="{{availableBalance}}" />
+        </view>
+        <view class="weui-cell__ft">BSTK</view>
+      </view>
+    </view>
+    <view class="weui-cells__title">钱包地址二维码</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="img-box">
+        <image bindtap="previewImg" mode="scaleToFill" src="{{imagePath}}"></image>
+      </view>
+    </view>
+    <view class="weui-cells__title">钱包提现</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">地址</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input bindinput="inputWithDrawAddr" class="weui-input" placeholder="提现地址" value="{{withDrawAddr}}" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">金额</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input bindinput="inputAmount" class="weui-input" type="digit" placeholder="提现金额" value="{{amount}}" />
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="page__bd page__bd_spacing">
+    <button class="weui-btn" type="primary" bindtap="checkBalance">查询余额</button>
+    <button class="weui-btn" type="primary" bindtap="withDraw">钱包提现</button>
+  </view>
+</view>
+<view hidden="{{maskHidden}}" class="mask"></view>
+<view class="canvas-box">
+  <canvas  hidden="{{canvasHidden}}" style="width: 686rpx;height: 686rpx;background:#f1f1f1;" canvas-id="mycanvas"/>
+</view>
+<button class="weui-btn" type="warn" bindtap="logout">退出登录</button>

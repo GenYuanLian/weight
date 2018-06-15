@@ -1,0 +1,130 @@
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view class="page__bd">
+    <view class="weui-cells__title">计划内容</view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label">简介</view>
+                </view>
+                <view class="weui-cell__bd">
+                  <input class="weui-input" disabled value="{{intro}}"/>
+                </view>
+            </view>
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label">目标体重</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <picker value='{{idx}}' range='{{array}}' disabled>
+                        <view class="weui-input">{{array[idx]}} kg</view>
+                    </picker>
+                </view>
+            </view>
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label">目标日期</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <picker mode="date" value="{{riqi}}" start="2018-06-01" end="2030-12-31" disabled>
+                        <view class="weui-input">{{riqi}}</view>
+                    </picker>
+                </view>
+            </view>
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label">截止日期</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <picker mode="date" value="{{wriqi}}" start="2018-06-01" end="2030-12-31" disabled>
+                        <view class="weui-input">{{wriqi}}</view>
+                    </picker>
+                </view>
+            </view>
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label">执行人</view>
+                </view>
+                <view class="weui-cell__bd">
+                  <input class="weui-input" disabled value="{{executor}}" />
+                </view>
+            </view>
+        </view>
+    <view class="weui-cells__title">赞助人</view>
+      <block wx:for="{{sponsors}}" wx:key="{{index}}">
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label">用户名</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <input class="weui-input" value="{{item.username}}" disabled />
+                </view>
+                <view wx:if="{{item.confirm==1}}" class="weui-cell__ft">已确认</view>
+                <view wx:else class="weui-cell__ft">未确认</view>
+            </view>
+          </view>
+        </block>
+      <view class="weui-cells__title">见证人</view>
+        <block wx:for="{{witnesses}}" wx:key="{{index}}">
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label">用户名</view>
+                </view>
+                <view wx:if="{{item.username==username}}" class="weui-cell__bd weui-cell_warn">
+                  <input class="weui-input" value="{{item.username}}" disabled />
+                </view>
+                <view wx:else class="weui-cell__bd">
+                  <input class="weui-input" value="{{item.username}}" disabled />
+                </view>
+                <view wx:if="{{item.username==username}}">
+                  <view wx:if="{{item.judge==1}}" class="weui-cell__ft weui-cell_warn">通过</view>
+                  <view wx:elif="{{item.judge==2}}" class="weui-cell__ft weui-cell_warn">不通过</view>
+                  <view wx:elif="{{item.confirm==1}}" class="weui-cell__ft weui-cell_warn">已确认</view>
+                <view wx:else class="weui-cell__ft weui-cell_warn">未确认</view>
+                </view>
+                <view wx:else>
+                  <view wx:if="{{submit || finish}}">
+                    <view wx:if="{{item.judge==1}}" class="weui-cell__ft">通过</view>
+                    <view wx:elif="{{item.judge==2}}" class="weui-cell__ft">不通过</view>
+                    <view wx:elif="{{item.confirm==1}}" class="weui-cell__ft">已确认</view>
+                    <view wx:else class="weui-cell__ft">未确认</view>
+                  </view>
+                  <view wx:else>
+                    <view wx:if="{{item.judge!=0}}" class="weui-cell__ft">已评判</view>
+                    <view wx:elif="{{item.confirm==1}}" class="weui-cell__ft">已确认</view>
+                    <view wx:else class="weui-cell__ft">未确认</view>
+                  </view>
+                </view>
+            </view>
+          </view>
+        </block>
+    <view wx:if="{{verify}}">
+      <view class="weui-cells__title">验证数据</view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label">验证说明</view>
+                </view>
+                <view class="weui-cell__bd">
+                  <input class="weui-input" disabled value="{{verifyIntro}}" />
+                </view>
+            </view>
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label">验证图片</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <image src="{{verifyPicPath}}" mode="widthFix" style="width:100%;"></image>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="page__bd page__bd_spacing">
+      <view wx:if="{{confirm && judge==0}}">
+        <button class="weui-btn" type="primary" bindtap="passWitness">通过计划</button>
+        <button class="weui-btn" type="primary" bindtap="notPassWitness">不通过计划</button>
+      </view>
+    </view>
+</view>
+</view>

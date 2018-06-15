@@ -1,0 +1,62 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/login/login",
+    "pages/regist/regist",
+    "pages/plans/plans",
+    "pages/plan/plan",
+    "pages/joinPlan/joinPlan",
+    "pages/sponsors/sponsors",
+    "pages/sponsor/sponsor",
+    "pages/joinSponsor/joinSponsor",
+    "pages/witnesses/witnesses",
+    "pages/witness/witness",
+    "pages/joinWitness/joinWitness",
+    "pages/my/my",
+    "pages/users/users",
+    "pages/logs/logs"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "源链之家",
+    "navigationBarTextStyle":"black"
+  },
+  "tabBar": {
+    "color": "#888888",
+    "selectedColor": "#44ffff",
+    "borderStyle": "#ccc",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/folder.png",
+        "selectedIconPath": "images/folder_sel.png"
+      },
+      {
+        "pagePath": "pages/plans/plans",
+        "text": "计划",
+        "iconPath": "images/operation.png",
+        "selectedIconPath": "images/operation_sel.png"
+      },
+      {
+        "pagePath": "pages/sponsors/sponsors",
+        "text": "赞助",
+        "iconPath": "images/trade-assurance.png",
+        "selectedIconPath": "images/trade-assurance_sel.png"
+      },
+      {
+        "pagePath": "pages/witnesses/witnesses",
+        "text": "见证",
+        "iconPath": "images/security.png",
+        "selectedIconPath": "images/security_sel.png"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "images/account.png",
+        "selectedIconPath": "images/account_sel.png"
+      }
+    ]
+  }
+}
