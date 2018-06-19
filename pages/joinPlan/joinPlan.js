@@ -32,6 +32,15 @@ Page({
           break;
         }
       }
+      for (var i = 0; i < item.witnesses.length; i++) {
+        if (item.witnesses[i].confirm == 0 || 
+          item.witnesses[i].confirm == 1) {
+          this.setData({
+            hasWitness: true
+          });
+          break;
+        }
+      }
     } else {
       this.setData({
         executor: wx.getStorageSync('userName')
@@ -392,7 +401,8 @@ Page({
     confirm: false,
     sponsors: [],
     witnesses: [],
-    sponsorShip: ''
+    sponsorShip: '',
+    hasWitness: false
   },
   bindInputSponsorShip: function (e) {
     this.setData({
@@ -425,8 +435,7 @@ Page({
               success: function (res) {
                 if (res.statusCode == "200") {
                   if (res.data == 0) {
-                    console.log("ok");
-                    app.globalData.joinPlans.splice(that.itemidx, 0);
+                    app.globalData.joinPlans.splice(that.data.itemidx, 0);
                     wx.setStorageSync("joinPlans", app.globalData.joinPlans);
                     that.setData({
                       items: app.globalData.joinPlans
@@ -486,7 +495,7 @@ Page({
             success: function (res) {
               if (res.statusCode == "200") {
                 if (res.data == 0) {
-                  app.globalData.joinPlans.splice(that.itemidx, 0);
+                  app.globalData.joinPlans.splice(that.data.itemidx, 0);
                   wx.setStorageSync("joinPlans", app.globalData.joinPlans);
                   that.setData({
                     items: app.globalData.joinPlans

@@ -69,10 +69,13 @@
                     <input class="weui-input" value="{{item.username}}" disabled />
                 </view>
                 <view wx:if="{{item.confirm==1}}" class="weui-cell__ft">
-                 已确认
+                 同意
                 </view>
-                <view wx:else class="weui-cell__ft">
-                  未确认
+                <view wx:elif="{{item.confirm==2}}" class="weui-cell__ft">
+                 不同意
+                </view>
+                <view wx:elif="{{item.confirm==0}}" class="weui-cell__ft">
+                 未确认
                 </view>
             </view>
             <view class="weui-cell weui-cell_input">
@@ -97,8 +100,9 @@
                 <input class="weui-input" value="{{item.username}}" disabled />
               </view>
               <view wx:if="{{item.judge!=0}}" class="weui-cell__ft">已评判</view>
-              <view wx:elif="{{item.confirm==1}}" class="weui-cell__ft">已确认</view>
-              <view wx:else class="weui-cell__ft">未确认</view>
+              <view wx:elif="{{item.confirm==1}}" class="weui-cell__ft">同意</view>
+              <view wx:elif="{{item.confirm==2}}" class="weui-cell__ft">不同意</view>
+              <view wx:elif="{{item.confirm==0}}" class="weui-cell__ft">未确认</view>
             </view>
           </view>
         </block>
@@ -138,6 +142,6 @@
   </view>
   <view class="page__bd page__bd_spacing">
     <button class="weui-btn" type="primary" bindtap="joinSponsor">我要赞助</button>
-    <button wx:if="{{!confirm}}" class="weui-btn" type="primary" bindtap="joinWitness">我要见证</button>
+    <button wx:if="{{!confirm || !hasWitness}}" class="weui-btn" type="primary" bindtap="joinWitness">我要见证</button>
   </view>
 </view>

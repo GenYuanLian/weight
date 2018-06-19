@@ -44,12 +44,29 @@
         <view class="weui-cell__bd">
           <input bindinput="inputAmount" class="weui-input" type="digit" placeholder="提现金额" value="{{amount}}" />
         </view>
+        <view class="weui-cell__ft">BSTK</view>
+      </view>
+    </view>
+    <view class="weui-flex">
+      <view class="weui-cells__title weui-flex__item">收益</view>
+      <image class="incomes" src="../../images/activity.png" mode="widthFix" bindtap="getIncomes"></image>
+    </view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">总共</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input bindinput="inputIncome" class="weui-input" placeholder="总的收益" value="{{income}}" disabled />
+        </view>
+        <view class="weui-cell__ft">BSTK</view>
       </view>
     </view>
   </view>
   <view class="page__bd page__bd_spacing">
     <button class="weui-btn" type="primary" bindtap="checkBalance">查询余额</button>
     <button class="weui-btn" type="primary" bindtap="withDraw">钱包提现</button>
+    <button class="weui-btn" type="primary" bindtap="checkIncome">查询收益</button>
   </view>
 </view>
 <view hidden="{{maskHidden}}" class="mask"></view>

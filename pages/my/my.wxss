@@ -31,3 +31,12 @@
   top:999999rpx;
   left: 0
 }
+.incomes {
+  width: 50rpx;
+  height: 50rpx;
+  margin-top: .77em;
+  margin-bottom: .7em;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 10px;
+}

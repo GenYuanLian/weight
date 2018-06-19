@@ -62,7 +62,8 @@ Page({
     imagePath: '',
     hasUserName: false,
     withDrawAddr: '',
-    amount: ''
+    amount: '',
+    income: ''
   },
   checkBalance: function (e) {
     var that = this;
@@ -85,6 +86,43 @@ Page({
               duration: 2000
             });
           } 
+        } else {
+          wx.showModal({
+            title: '提示',
+            content: '服务器出小差了，请重试',
+            showCancel: false
+          })
+        }
+      }
+    })
+  },
+  checkIncome: function (e) {
+    var that = this;
+    wx.request({
+      url: 'http://localhost:8080/checkIncome',
+      method: 'GET',
+      header: {
+        'Session-Key': wx.getStorageSync("sessionKey")
+      },
+      success: function (res) {
+        if (res.statusCode == "200") {
+          if (res.data.status == 0) {
+            that.setData({
+              income: res.data.income
+            });
+            app.globalData.incomes = res.data.incomes;
+            wx.showToast({
+              title: '查询成功',
+              icon: 'success',
+              duration: 2000
+            });
+          } else if (res.data.status == -7) {
+            wx.showModal({
+              title: '提示',
+              content: '遇到系统异常',
+              showCancel: false
+            })
+          }
         } else {
           wx.showModal({
             title: '提示',
@@ -277,6 +315,11 @@ Page({
   inputAmount: function (e) {
     this.setData({
       amount: trim(e.detail.value)
+    })
+  },
+  getIncomes: function (e) {
+    wx.navigateTo({
+      url: '../incomes/incomes'
     })
   }
 })

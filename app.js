@@ -48,6 +48,7 @@ App({
     joinWitnesses: [],
     users: [],
     selUsers: [],
-    selName: ''
+    selName: '',
+    incomes: []
   }
 })

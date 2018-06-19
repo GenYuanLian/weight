@@ -17,7 +17,7 @@ Page({
         verify: item.plan.verify == 1,
         submit: item.plan.submit == 1,
         finish: item.plan.finish == 1,
-        confirm: item.confirm == 1,
+        confirm: item.confirm,
         judge: item.judge,
         sponsors: item.plan.sponsors,
         witnesses: item.plan.witnesses
@@ -374,7 +374,7 @@ Page({
     verify: false,
     submit: false,
     finish: false,
-    confirm: false,
+    confirm: 0,
     judge: 0,
     sponsors: [],
     witnesses: []
@@ -389,7 +389,7 @@ Page({
       return;
     }
     var that = this;
-    var item = app.globalData.witnesses[this.data.itemidx];
+    var item = app.globalData.joinWitnesses[this.data.itemidx];
     wx.showModal({
       title: '确认',
       content: '确认是否通过执行人的目标计划？',
@@ -416,8 +416,8 @@ Page({
                     }
                   }
                   item.plan.witnesses = witnesses;
-                  app.globalData.witnesses[that.data.itemidx] = item;
-                  wx.setStorageSync('witnesses', app.globalData.witnesses);
+                  app.globalData.joinWitnesses[that.data.itemidx] = item;
+                  wx.setStorageSync('joinWitnesses', app.globalData.joinWitnesses);
                   wx.navigateBack({
                     delta: 1
                   })
@@ -454,7 +454,7 @@ Page({
       return;
     }
     var that = this;
-    var item = app.globalData.witnesses[this.data.itemidx];
+    var item = app.globalData.joinWitnesses[this.data.itemidx];
     wx.showModal({
       title: '确认',
       content: '确认是否不通过执行人的目标计划？',
@@ -481,8 +481,8 @@ Page({
                     }
                   }
                   item.plan.witnesses = witnesses;
-                  app.globalData.witnesses[that.data.itemidx] = item;
-                  wx.setStorageSync('witnesses', app.globalData.witnesses);
+                  app.globalData.joinWitnesses[that.data.itemidx] = item;
+                  wx.setStorageSync('joinWitnesses', app.globalData.joinWitnesses);
                   wx.navigateBack({
                     delta: 1
                   })

@@ -14,6 +14,7 @@
     "pages/joinWitness/joinWitness",
     "pages/my/my",
     "pages/users/users",
+    "pages/incomes/incomes",
     "pages/logs/logs"
   ],
   "window":{

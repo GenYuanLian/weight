@@ -80,20 +80,23 @@
                 <view wx:if="{{item.username==username}}">
                   <view wx:if="{{item.judge==1}}" class="weui-cell__ft weui-cell_warn">通过</view>
                   <view wx:elif="{{item.judge==2}}" class="weui-cell__ft weui-cell_warn">不通过</view>
-                  <view wx:elif="{{item.confirm==1}}" class="weui-cell__ft weui-cell_warn">已确认</view>
-                <view wx:else class="weui-cell__ft weui-cell_warn">未确认</view>
+                  <view wx:elif="{{item.confirm==1}}" class="weui-cell__ft weui-cell_warn">同意</view>
+                  <view wx:elif="{{item.confirm==2}}" class="weui-cell__ft weui-cell_warn">不同意</view>
+                  <view wx:elif="{{item.confirm==0}}" class="weui-cell__ft weui-cell_warn">未确认</view>
                 </view>
                 <view wx:else>
                   <view wx:if="{{submit || finish}}">
                     <view wx:if="{{item.judge==1}}" class="weui-cell__ft">通过</view>
                     <view wx:elif="{{item.judge==2}}" class="weui-cell__ft">不通过</view>
-                    <view wx:elif="{{item.confirm==1}}" class="weui-cell__ft">已确认</view>
-                    <view wx:else class="weui-cell__ft">未确认</view>
+                    <view wx:elif="{{item.confirm==1}}" class="weui-cell__ft">同意</view>
+                    <view wx:elif="{{item.confirm==2}}" class="weui-cell__ft">不同意</view>
+                    <view wx:elif="{{item.confirm==0}}" class="weui-cell__ft">未确认</view>
                   </view>
                   <view wx:else>
                     <view wx:if="{{item.judge!=0}}" class="weui-cell__ft">已评判</view>
-                    <view wx:elif="{{item.confirm==1}}" class="weui-cell__ft">已确认</view>
-                    <view wx:else class="weui-cell__ft">未确认</view>
+                    <view wx:elif="{{item.confirm==1}}" class="weui-cell__ft">同意</view>
+                    <view wx:elif="{{item.confirm==2}}" class="weui-cell__ft">不同意</view>
+                    <view wx:elif="{{item.confirm==0}}" class="weui-cell__ft">未确认</view>
                   </view>
                 </view>
             </view>
@@ -120,11 +123,11 @@
             </view>
         </view>
     </view>
-    <view class="page__bd page__bd_spacing">
-      <view wx:if="{{confirm && judge==0}}">
+  </view>
+  <view class="page__bd page__bd_spacing">
+      <view wx:if="{{confirm==1 && judge==0}}">
         <button class="weui-btn" type="primary" bindtap="passWitness">通过计划</button>
         <button class="weui-btn" type="primary" bindtap="notPassWitness">不通过计划</button>
       </view>
     </view>
-</view>
 </view>

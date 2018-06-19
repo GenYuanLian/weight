@@ -29,3 +29,5 @@ page{
     padding-bottom: 10px;
     text-align: center;
 }
+
+@import 'components/wux.wxss';

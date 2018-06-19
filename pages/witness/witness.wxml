@@ -1,6 +1,8 @@
+<import src="../../components/dialog/dialog.wxml"/>
+
+<template is="dialog" data="{{ ...$wux.dialog }}"/>
+
 <view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
-  <view class="page__hd">
-  </view>
   <view class="page__bd">
     <view class="weui-cells__title">计划内容</view>
         <view class="weui-cells weui-cells_after-title">
@@ -61,8 +63,9 @@
                 <view class="weui-cell__bd">
                     <input class="weui-input" value="{{item.username}}" disabled />
                 </view>
-                <view wx:if="{{item.confirm==1}}" class="weui-cell__ft">已确认</view>
-                <view wx:else class="weui-cell__ft">未确认</view>
+                <view wx:if="{{item.confirm==1}}" class="weui-cell__ft">同意</view>
+                <view wx:elif="{{item.confirm==2}}" class="weui-cell__ft">不同意</view>
+                <view wx:else="{{item.confirm==0}}" class="weui-cell__ft">未确认</view>
             </view>
           </view>
         </block>
@@ -82,20 +85,23 @@
                 <view wx:if="{{item.username==username}}">
                   <view wx:if="{{item.judge==1}}" class="weui-cell__ft weui-cell_warn">通过</view>
                   <view wx:elif="{{item.judge==2}}" class="weui-cell__ft weui-cell_warn">不通过</view>
-                  <view wx:elif="{{item.confirm==1}}" class="weui-cell__ft weui-cell_warn">已确认</view>
-                <view wx:else class="weui-cell__ft weui-cell_warn">未确认</view>
+                  <view wx:elif="{{item.confirm==1}}" class="weui-cell__ft weui-cell_warn">同意</view>
+                <view wx:elif="{{item.confirm==2}}" class="weui-cell__ft weui-cell_warn">不同意</view>
+                <view wx:elif="{{item.confirm==0}}" class="weui-cell__ft weui-cell_warn">未确认</view>
                 </view>
                 <view wx:else>
                   <view wx:if="{{submit || finish}}">
                     <view wx:if="{{item.judge==1}}" class="weui-cell__ft">通过</view>
                     <view wx:elif="{{item.judge==2}}" class="weui-cell__ft">不通过</view>
-                    <view wx:elif="{{item.confirm==1}}" class="weui-cell__ft">已确认</view>
-                    <view wx:else class="weui-cell__ft">未确认</view>
+                    <view wx:elif="{{item.confirm==1}}" class="weui-cell__ft">同意</view>
+                    <view wx:elif="{{item.confirm==2}}" class="weui-cell__ft">不同意</view>
+                    <view wx:elif="{{item.confirm==0}}" class="weui-cell__ft">未确认</view>
                   </view>
                   <view wx:else>
                     <view wx:if="{{item.judge!=0}}" class="weui-cell__ft">已评判</view>
                     <view wx:elif="{{item.confirm==1}}" class="weui-cell__ft">已确认</view>
-                    <view wx:else class="weui-cell__ft">未确认</view>
+                    <view wx:elif="{{item.confirm==2}}" class="weui-cell__ft">不同意</view>
+                    <view wx:elif="{{item.confirm==0}}" class="weui-cell__ft">未确认</view>
                   </view>
                 </view>
             </view>
@@ -122,14 +128,14 @@
             </view>
           </view>
     </view>
-    <view class="page__bd page__bd_spacing">
-      <view wx:if="{{!confirm}}">
+  </view>
+  <view class="page__bd page__bd_spacing">
+      <view wx:if="{{confirm==0}}">
         <button class="weui-btn" type="primary" bindtap="confirmWitness">见证计划</button>
       </view>
-      <view wx:elif="{{judge==0}}">
+      <view wx:elif="{{judge==0 && confirm==1}}">
         <button class="weui-btn" type="primary" bindtap="passWitness">通过计划</button>
         <button class="weui-btn" type="primary" bindtap="notPassWitness">不通过计划</button>
       </view>
     </view>
-</view>
 </view>

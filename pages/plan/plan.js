@@ -1,5 +1,6 @@
 import { trim } from '../../utils/util.js';
 import { makePy } from '../../utils/pinyinUtil.js';
+import { $wuxDialog } from '../../components/wux'
 
 const app = getApp();
 Page({
@@ -38,6 +39,24 @@ Page({
         if (item.witnesses[i].judge != 0) {
           this.setData({
             judge: true
+          });
+          break;
+        }
+      }
+      for (var i = 0; i < item.sponsors.length; i++) {
+        if (item.sponsors[i].confirm == 0 || item.sponsors[i]
+          .confirm == 1) {
+          this.setData({
+            hasSponsor: true
+          });
+          break;
+        }
+      }
+      for (var i = 0; i < item.witnesses.length; i++) {
+        if (item.witnesses[i].confirm == 0 || item.witnesses[i]
+          .confirm == 1) {
+          this.setData({
+            hasWitness: true
           });
           break;
         }
@@ -437,7 +456,9 @@ Page({
       }
     ],
     userIdx: 0,
-    userType: 1
+    userType: 1,
+    hasSponsor: false,
+    hasWitness: false
   },
   bindInputIntro: function (e) {
     this.setData({
@@ -600,6 +621,14 @@ Page({
         }
       })
     } else {
+      if (!this.data.hasSponsor || !this.data.hasWitness) {
+        wx.showModal({
+          title: '提示',
+          content: '没有赞助人或者见证人',
+          showCancel: false
+        });
+        return;
+      }
       wx.request({
         url: 'http://localhost:8080/updatePlan',
         method: 'POST',
@@ -654,10 +683,16 @@ Page({
                   showCancel: false
                 })
               }
-            } else if (res.data == -7) {
+            } else if (res.data.status == -7) {
               wx.showModal({
                 title: '出错',
                 content: '遇到系统异常',
+                showCancel: false
+              })
+            } else if (res.data.status == -22) {
+              wx.showModal({
+                title: '提示',
+                content: res.data.message,
                 showCancel: false
               })
             } else {
@@ -1020,7 +1055,8 @@ Page({
     var witness = {
       "username": "",
       "confirm": 0,
-      "judge": 0
+      "judge": 0,
+      "active": 0
     };
     var witnesses = this.data.witnesses;
     witnesses.push(witness);
@@ -1032,7 +1068,8 @@ Page({
     var sponsor = {
       "username": "",
       "sponsorShip": 1,
-      "confirm": 0
+      "confirm": 0,
+      "active": 0
     };
     var sponsors = this.data.sponsors;
     sponsors.push(sponsor);
@@ -1138,5 +1175,171 @@ Page({
         app.globalData.selUsers.push(aa[i]);
       }
     }
+  },
+  confirmSponsor: function (e) {
+    var that = this;
+    var index = e.currentTarget.dataset.index;
+    var item = this.data.sponsors[index];
+    item.confirm = 0;
+    $wuxDialog.open({
+      title: '赞助计划',
+      content: '确认是否赞助执行人的目标规划？',
+      buttons: [
+        {
+          text: '同意',
+          type: 'weui-dialog__btn--primary',
+          onTap(e) {
+            item.confirm = 1;
+            wx.request({
+              url: 'http://localhost:8080/confirmSponsor?id=' + item.id +
+              "&confirm=1",
+              method: 'GET',
+              success: res => {
+                if (res.statusCode == 200) {
+                  if (res.data == 0) {
+                    wx.showToast({
+                      title: '同意赞助计划',
+                      icon: 'success'
+                    });
+                    that.data.sponsors[index] = item;
+                    app.globalData.sponsors = that.data.sponsors;
+                    wx.setStorageSync("sponsors", app.globalData.sponsors);
+                    wx.navigateBack({
+                      delta: 1
+                    })
+                  }
+                } else {
+                  wx.showModal({
+                    title: '提示',
+                    content: '服务器出小差了，请重试',
+                    showCancel: false
+                  })
+                }
+              }
+            })
+          },
+        },
+        {
+          text: '不同意',
+          type: 'weui-dialog__btn--primary',
+          onTap(e) {
+            item.confirm = 2;
+            wx.request({
+              url: 'http://localhost:8080/confirmSponsor?id=' + item.id +
+              "&confirm=2",
+              method: 'GET',
+              success: res => {
+                if (res.statusCode == 200) {
+                  if (res.data == 0) {
+                    wx.showToast({
+                      title: '不同意赞助计划',
+                      icon: 'success'
+                    });
+                    that.data.sponsors[index] = item;
+                    app.globalData.plans[that.data.itemidx].sponsors = that.data.sponsors;
+                    wx.setStorageSync("plans", app.globalData.plans);
+                    wx.navigateBack({
+                      delta: 1
+                    })
+                  }
+                } else {
+                  wx.showModal({
+                    title: '提示',
+                    content: '服务器出小差了，请重试',
+                    showCancel: false
+                  })
+                }
+              }
+            })
+          },
+        },
+        {
+          text: '取消',
+        },
+      ],
+    })
+  },
+  confirmWitness: function (e) {
+    var that = this;
+    var index = e.currentTarget.dataset.index;
+    var item = this.data.witnesses[index];
+    item.confirm = 0;
+    $wuxDialog.open({
+      title: '见证计划',
+      content: '确认是否见证执行人的目标规划？',
+      buttons: [
+        {
+          text: '同意',
+          type: 'weui-dialog__btn--primary',
+          onTap(e) {
+            item.confirm = 1;
+            wx.request({
+              url: 'http://localhost:8080/confirmWitness?id=' + item.id +
+              "&confirm=1",
+              method: 'GET',
+              success: res => {
+                if (res.statusCode == 200) {
+                  if (res.data == 0) {
+                    wx.showToast({
+                      title: '同意见证计划',
+                      icon: 'success'
+                    });
+                    that.data.witnesses[index] = item;
+                    app.globalData.plans[that.data.itemidx].witnesses = that.data.witnesses;
+                    wx.setStorageSync("plans", app.globalData.plans);
+                    wx.navigateBack({
+                      delta: 1
+                    })
+                  }
+                } else {
+                  wx.showModal({
+                    title: '提示',
+                    content: '服务器出小差了，请重试',
+                    showCancel: false
+                  })
+                }
+              }
+            })
+          },
+        },
+        {
+          text: '不同意',
+          type: 'weui-dialog__btn--primary',
+          onTap(e) {
+            item.confirm = 2;
+            wx.request({
+              url: 'http://localhost:8080/confirmWitness?id=' + item.id +
+              "&confirm=2",
+              method: 'GET',
+              success: res => {
+                if (res.statusCode == 200) {
+                  if (res.data == 0) {
+                    wx.showToast({
+                      title: '不同意见证计划',
+                      icon: 'success'
+                    });
+                    that.data.witnesses[index] = item;
+                    app.globalData.witnesses = that.data.witnesses;
+                    wx.setStorageSync("witnesses", app.globalData.witnesses);
+                    wx.navigateBack({
+                      delta: 1
+                    })
+                  }
+                } else {
+                  wx.showModal({
+                    title: '提示',
+                    content: '服务器出小差了，请重试',
+                    showCancel: false
+                  })
+                }
+              }
+            })
+          },
+        },
+        {
+          text: '取消',
+        },
+      ],
+    })
   }
 })
